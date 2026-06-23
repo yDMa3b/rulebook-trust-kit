@@ -1,0 +1,15 @@
+schemaVersion: 1
+rulesetId: dou-di-zhu-standard-v1
+version: 0.1.0
+gameId: dou-di-zhu
+rulesFile: ../rules.yaml
+sourceChecklist: sources.yaml
+ruleTruthPolicy: rules.yaml is the machine-consumed rule-id table; this wrapper records package metadata only.
+normativeRuleMode: package_rules_yaml
+engineRefs:
+  - ../implementation-notes.md
+testRefs:
+  - ../tests/semantic/card-patterns.fixture.json
+  - ../tests/edge/beating.fixture.yaml
+  - ../tests/edge/deal-and-terminal.fixture.yaml
+  - ../tests/edge/scoring.fixture.yaml

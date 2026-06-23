@@ -1,0 +1,30 @@
+{
+  "$schema": "../example.schema.json",
+  "game_type": "betting",
+  "description": "Advisory example for betting/compare-hand games.",
+  "reference_games": ["niu-niu", "zha-jin-hua", "san-gong"],
+  "example_phases": [
+    { "lua_id": "BETTING", "lua_value": 1, "cpp_phase": 1, "ui_behavior": "show_bet_buttons", "button_labels": ["bet", "fold", "raise"] },
+    { "lua_id": "SETTLEMENT", "lua_value": 2, "cpp_phase": 5, "ui_behavior": "show_result_panel", "button_labels": [] },
+    { "lua_id": "DONE", "lua_value": 3, "cpp_phase": 5, "ui_behavior": "show_result_panel", "button_labels": [] }
+  ],
+  "history_card_types": [
+    { "value": 0, "meaning": "fold", "ui_action": "show_fold_status" },
+    { "value": 1, "meaning": "bet", "ui_action": "show_bet_status" },
+    { "value": 99, "meaning": "showdown", "ui_action": "reveal_hand_cards" }
+  ],
+  "action_mask_schema": [
+    { "index": 0, "meaning": "can_fold", "ui_binding": "fold_button_enabled" },
+    { "index": 1, "meaning": "can_bet", "ui_binding": "bet_button_enabled" },
+    { "index": 2, "meaning": "can_raise", "ui_binding": "raise_button_enabled" }
+  ],
+  "required_lua_exports_extra": ["evaluate_hand"],
+  "forbidden_lua_exports": ["analyze_cards", "can_beat", "find_all_moves", "is_winning", "judge_trick_winner"],
+  "custom_data_layout": null,
+  "seat_custom_layout": null,
+  "seat_fields": [
+    { "field": "score", "usage": "required" },
+    { "field": "role", "usage": "required" }
+  ],
+  "extra_cards_usage": "Optional common cards for variants."
+}

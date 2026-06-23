@@ -1,0 +1,36 @@
+{
+  "$schema": "../example.schema.json",
+  "game_type": "shedding",
+  "description": "Advisory example for shedding-style games.",
+  "reference_games": ["dou-di-zhu", "guan-dan", "pao-de-kuai", "shuang-kou"],
+  "example_phases": [
+    { "lua_id": "BIDDING", "lua_value": 1, "cpp_phase": 1, "ui_behavior": "show_phase_buttons", "button_labels": ["call", "pass"], "rule_id_example": "<GAME>.PHASE.BIDDING" },
+    { "lua_id": "GRABBING", "lua_value": 2, "cpp_phase": 2, "ui_behavior": "show_phase_buttons", "button_labels": ["grab", "pass"], "rule_id_example": "<GAME>.PHASE.GRABBING" },
+    { "lua_id": "DOUBLING", "lua_value": 3, "cpp_phase": 3, "ui_behavior": "show_phase_buttons", "button_labels": ["double", "skip"], "rule_id_example": "<GAME>.PHASE.DOUBLING" },
+    { "lua_id": "PLAYING", "lua_value": 4, "cpp_phase": 4, "ui_behavior": "show_play_buttons", "button_labels": ["play", "pass"], "rule_id_example": "<GAME>.PHASE.PLAYING" },
+    { "lua_id": "SETTLEMENT", "lua_value": 5, "cpp_phase": 5, "ui_behavior": "show_result_panel", "button_labels": [], "rule_id_example": "<GAME>.PHASE.SETTLEMENT" }
+  ],
+  "phase_notes": "This phase list is advisory only. Game-specific phases such as TRIBUTE/PAYBACK may extend it as long as cpp_phase and ui_behavior stay legal. schema_version=2 起每 phase 应在 describe_phase 返回中带稳定 rule_id（GAMECODE.PHASE.NAME），见 research/_taxonomy/rule_id_prefixes.yaml。",
+  "history_card_types": [
+    { "value": 0, "meaning": "pass", "ui_action": "show_pass_tip" },
+    { "value": 1, "meaning": "single", "ui_action": "show_played_cards" },
+    { "value": 11, "meaning": "bomb", "ui_action": "show_played_cards_bomb" }
+  ],
+  "history_notes": "Representative card types only; concrete games may add more.",
+  "action_mask_schema": [
+    { "index": 0, "meaning": "can_pass", "ui_binding": "pass_button_enabled" },
+    { "index": "1-N", "meaning": "move_index", "ui_binding": "play_button_enabled" }
+  ],
+  "required_lua_exports_extra": ["analyze_cards", "can_beat", "find_all_moves"],
+  "forbidden_lua_exports": ["evaluate_hand", "is_winning", "judge_trick_winner"],
+  "custom_data_layout": [
+    { "offset": 0, "size": 1, "field": "wild_val", "type": "uint8" },
+    { "offset": 1, "size": 1, "field": "bomb_count", "type": "uint8" }
+  ],
+  "seat_custom_layout": null,
+  "seat_fields": [
+    { "field": "score", "usage": "optional" },
+    { "field": "role", "usage": "optional" }
+  ],
+  "extra_cards_usage": "Bottom cards or common cards."
+}

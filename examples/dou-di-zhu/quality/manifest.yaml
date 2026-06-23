@@ -1,0 +1,28 @@
+schemaVersion: 1
+gameId: dou-di-zhu
+displayName: Dou Di Zhu
+alternateNames:
+  - 斗地主
+  - Landlord
+category: card
+rulesetId: dou-di-zhu-standard-v1
+rulesetVersion: 0.1.0
+language: zh-CN
+region:
+  country: China
+  province: null
+  locality: null
+historicalPeriod: null
+players:
+  min: 3
+  max: 3
+status: IMPLEMENTED
+engineEntry: null
+sourceIds:
+  - SRC-001
+  - SRC-002
+  - SRC-003
+  - SRC-004
+knownIssues:
+  - AMB-DDZ-MAX-MULTIPLIER
+lastVerifiedAt: null

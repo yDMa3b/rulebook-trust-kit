@@ -1,0 +1,55 @@
+schemaVersion: 1
+sources:
+  - id: SRC-001
+    type: website
+    title: Dou Di Zhu competition rules
+    authorOrCollector: Tsinghua PBCSF Alumni
+    accessDate: "2026-06-24"
+    url: https://alumni.pbcsf.tsinghua.edu.cn/info/1002/1568.htm
+    language: zh-CN
+    region: China
+    reliability: secondary
+    notes: Public competition rules used to cross-check deal, multipliers, spring, and settlement behavior.
+  - id: SRC-002
+    type: encyclopedia
+    title: Dou Di Zhu
+    authorOrCollector: Wikipedia contributors
+    accessDate: "2026-06-24"
+    url: https://zh.wikipedia.org/wiki/%E9%AC%A5%E5%9C%B0%E4%B8%BB
+    language: zh-CN
+    region: China
+    reliability: tertiary
+    notes: Used only for broad cross-checking of common three-player structure, card types, and scoring concepts.
+  - id: SRC-003
+    type: platform-rules
+    title: QQ Game Dou Di Zhu rules
+    authorOrCollector: QQ Game
+    accessDate: "2026-06-24"
+    url: https://qqgame.qq.com/act/a20140723ddzrule/rule.html
+    language: zh-CN
+    region: China
+    reliability: secondary
+    notes: Platform rules used to compare multiplier behavior and distinguish platform choices from general rule facts.
+  - id: SRC-004
+    type: curated-checklist
+    title: Compact public Dou Di Zhu checklist
+    authorOrCollector: Rulebook Trust Kit maintainers
+    accessDate: "2026-06-24"
+    url: null
+    localPath: examples/dou-di-zhu/rules.yaml
+    language: zh-CN
+    region: China
+    reliability: secondary
+    notes: Public package-local distilled checklist for this example; not a private product source.
+decisions:
+  - id: DEC-DDZ-MAX-MULTIPLIER
+    type: museum-decision
+    title: Treat maximum multiplier as platform configuration
+    decidedAt: "2026-06-24"
+    status: provisional
+    ruleIds:
+      - DDZ.SCORE.MAX_MULTIPLIER
+    evidence:
+      - Public sources support multiplier changes from bombs, rockets, and spring-like outcomes.
+      - A universal maximum multiplier is not treated as a source-backed base rule in this compact public package.
+    notes: Default example behavior is uncapped; projects may add platform-specific caps as explicit configuration.

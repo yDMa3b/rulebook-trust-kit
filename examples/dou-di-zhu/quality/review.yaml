@@ -1,0 +1,12 @@
+schemaVersion: 1
+mechanicalReview:
+  status: pending-public-validation
+  verifiedAt: null
+  commands:
+    - pnpm validate --game dou-di-zhu
+    - pnpm trace --game dou-di-zhu
+    - pnpm review-pack --game dou-di-zhu
+domainReviews: []
+communityReviews: []
+openQuestions:
+  - AMB-DDZ-MAX-MULTIPLIER

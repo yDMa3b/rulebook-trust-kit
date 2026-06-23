@@ -1,0 +1,133 @@
+schema_version: 1
+game_id: dou-di-zhu
+rule_id_prefix: DDZ
+source_checklist: quality/sources.yaml
+rules:
+  - rule_id: DDZ.PHASE.DEAL
+    domain: PHASE
+    summary: Three players receive 17 cards each, with 3 bottom cards reserved for the landlord.
+    source_refs:
+      - SRC-004:deal
+    source_quote: "Paraphrase: three-player Dou Di Zhu deals 17 cards to each player and reserves 3 bottom cards."
+    implementation_refs:
+      - implementation-notes.md
+    test_refs:
+      - tests/edge/deal-and-terminal.fixture.yaml
+    severity: core
+  - rule_id: DDZ.CARD.SINGLE
+    domain: CARD
+    summary: A single card is a legal standalone play.
+    source_refs:
+      - SRC-004:card-types
+    source_quote: "Paraphrase: single-card plays are part of the normal card type set."
+    implementation_refs:
+      - implementation-notes.md
+    test_refs:
+      - tests/semantic/card-patterns.fixture.json
+    severity: core
+  - rule_id: DDZ.CARD.STRAIGHT_NO_TWO_KINGS
+    domain: CARD
+    summary: A straight must not include 2s or jokers.
+    source_refs:
+      - SRC-004:card-types
+    source_quote: "Paraphrase: straights are consecutive normal ranks and exclude 2 and jokers."
+    implementation_refs:
+      - implementation-notes.md
+    test_refs:
+      - tests/semantic/card-patterns.fixture.json
+    severity: core
+  - rule_id: DDZ.CARD.BOMB
+    domain: CARD
+    summary: Four cards of the same rank form a bomb.
+    source_refs:
+      - SRC-001:multipliers
+      - SRC-004:card-types
+    source_quote: "Paraphrase: bombs are special high-power plays and affect multipliers."
+    implementation_refs:
+      - implementation-notes.md
+    test_refs:
+      - tests/semantic/card-patterns.fixture.json
+    severity: core
+  - rule_id: DDZ.CARD.ROCKET
+    domain: CARD
+    summary: The two jokers together form the rocket.
+    source_refs:
+      - SRC-002:card-types
+      - SRC-004:card-types
+    source_quote: "Paraphrase: the two jokers form the strongest special combination."
+    implementation_refs:
+      - implementation-notes.md
+    test_refs:
+      - tests/semantic/card-patterns.fixture.json
+    severity: core
+  - rule_id: DDZ.BEAT.BOMB_OVER_NONBOMB
+    domain: BEAT
+    summary: A bomb can beat any non-bomb, non-rocket play.
+    source_refs:
+      - SRC-004:beating
+    source_quote: "Paraphrase: bombs can override ordinary card structures."
+    implementation_refs:
+      - implementation-notes.md
+    test_refs:
+      - tests/edge/beating.fixture.yaml
+    severity: core
+  - rule_id: DDZ.BEAT.ROCKET_OVER_ALL
+    domain: BEAT
+    summary: The rocket beats all other plays.
+    source_refs:
+      - SRC-002:card-types
+      - SRC-004:beating
+    source_quote: "Paraphrase: rocket is the highest combination."
+    implementation_refs:
+      - implementation-notes.md
+    test_refs:
+      - tests/edge/beating.fixture.yaml
+    severity: core
+  - rule_id: DDZ.WIN.EMPTY_HAND_FIRST
+    domain: WIN
+    summary: The side whose player empties their hand first wins the hand.
+    source_refs:
+      - SRC-002:win-condition
+      - SRC-004:win-condition
+    source_quote: "Paraphrase: the hand ends when one player has no cards left."
+    implementation_refs:
+      - implementation-notes.md
+    test_refs:
+      - tests/edge/deal-and-terminal.fixture.yaml
+    severity: core
+  - rule_id: DDZ.SCORE.BOMB_AND_ROCKET_DOUBLE
+    domain: SCORE
+    summary: Played bombs and rockets double the scoring multiplier.
+    source_refs:
+      - SRC-001:multipliers
+      - SRC-003:multipliers
+    source_quote: "Paraphrase: bombs and rockets affect the score multiplier."
+    implementation_refs:
+      - implementation-notes.md
+    test_refs:
+      - tests/edge/scoring.fixture.yaml
+    severity: core
+  - rule_id: DDZ.SCORE.SPRING_DOUBLE
+    domain: SCORE
+    summary: Spring or anti-spring conditions double the scoring multiplier.
+    source_refs:
+      - SRC-001:multipliers
+      - SRC-002:scoring
+    source_quote: "Paraphrase: spring-like outcomes affect the multiplier."
+    implementation_refs:
+      - implementation-notes.md
+    test_refs:
+      - tests/edge/scoring.fixture.yaml
+    severity: core
+  - rule_id: DDZ.SCORE.MAX_MULTIPLIER
+    domain: SCORE
+    summary: Maximum multiplier is a platform configuration, not a source-backed traditional base rule in this example.
+    certainty: museum-decision
+    decision_ref: DEC-DDZ-MAX-MULTIPLIER
+    source_refs: []
+    source_quote: "Maintainer decision: default example behavior does not cap the multiplier."
+    implementation_refs:
+      - implementation-notes.md
+    test_refs:
+      - tests/edge/scoring.fixture.yaml
+    severity: variant

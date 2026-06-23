@@ -1,0 +1,27 @@
+{
+  "name": "@rulebook-trust/cli",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "CLI for validating rule trust packages and generating trace/review artifacts.",
+  "license": "Apache-2.0",
+  "bin": {
+    "rule-trust": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "node --import tsx --test test/cli.test.ts",
+    "validate": "tsx src/cli.ts validate",
+    "trace": "tsx src/cli.ts trace",
+    "review-pack": "tsx src/cli.ts review-pack"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "yaml": "^2.6.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "~5.6.2"
+  }
+}

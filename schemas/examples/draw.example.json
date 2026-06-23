@@ -1,0 +1,41 @@
+{
+  "$schema": "../example.schema.json",
+  "game_type": "draw",
+  "description": "Advisory example for draw/discard games.",
+  "reference_games": ["chengdu-mahjong", "mahjong-guobiao", "ka-wu-xing"],
+  "example_phases": [
+    { "lua_id": "DRAW", "lua_value": 1, "cpp_phase": 4, "ui_behavior": "show_discard_selection", "button_labels": [] },
+    { "lua_id": "DISCARD", "lua_value": 2, "cpp_phase": 4, "ui_behavior": "show_response_buttons", "button_labels": ["chi", "peng", "gang", "hu", "pass"] },
+    { "lua_id": "DONE", "lua_value": 3, "cpp_phase": 5, "ui_behavior": "show_result_panel", "button_labels": [] }
+  ],
+  "phase_notes": "Lua may keep separate DRAW and DISCARD ids while both map to cpp_phase=4.",
+  "history_card_types": [
+    { "value": 0, "meaning": "pass", "ui_action": "none" },
+    { "value": 1, "meaning": "discard", "ui_action": "show_discard_tile" },
+    { "value": 3, "meaning": "peng", "ui_action": "add_meld_peng" },
+    { "value": 4, "meaning": "gang", "ui_action": "add_meld_gang" },
+    { "value": 5, "meaning": "hu", "ui_action": "trigger_settlement" }
+  ],
+  "action_mask_schema": [
+    { "index": 0, "meaning": "pass", "ui_binding": "pass_button_enabled" },
+    { "index": "1-34", "meaning": "discard_tile", "ui_binding": "tile_selectable" },
+    { "index": 38, "meaning": "peng", "ui_binding": "peng_button_enabled" },
+    { "index": 39, "meaning": "ming_gang", "ui_binding": "gang_button_enabled" },
+    { "index": 40, "meaning": "an_gang", "ui_binding": "gang_button_enabled" },
+    { "index": 41, "meaning": "bu_gang", "ui_binding": "gang_button_enabled" },
+    { "index": 42, "meaning": "zimo_hu", "ui_binding": "hu_button_enabled" },
+    { "index": 43, "meaning": "dianpao_hu", "ui_binding": "hu_button_enabled" }
+  ],
+  "required_lua_exports_extra": ["is_winning"],
+  "forbidden_lua_exports": ["analyze_cards", "can_beat", "find_all_moves", "evaluate_hand"],
+  "custom_data_layout": null,
+  "seat_custom_layout": {
+    "format": "meld_array",
+    "max_bytes": 32
+  },
+  "seat_fields": [
+    { "field": "score", "usage": "optional" },
+    { "field": "role", "usage": "optional" }
+  ],
+  "extra_cards_usage": "Usually unused; wall state is encoded elsewhere."
+}

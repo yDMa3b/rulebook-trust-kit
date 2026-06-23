@@ -1,0 +1,26 @@
+{
+  "$schema": "../example.schema.json",
+  "game_type": "matching",
+  "description": "Advisory example for matching or compare-choice games.",
+  "reference_games": ["bi-da-xiao", "dou-shi-si", "chou-wu-gui"],
+  "example_phases": [
+    { "lua_id": "PLAYING", "lua_value": 1, "cpp_phase": 4, "ui_behavior": "show_play_buttons", "button_labels": ["play", "pass"] },
+    { "lua_id": "SETTLEMENT", "lua_value": 2, "cpp_phase": 5, "ui_behavior": "show_result_panel", "button_labels": [] }
+  ],
+  "history_card_types": [
+    { "value": 0, "meaning": "pass", "ui_action": "show_pass_tip" },
+    { "value": 1, "meaning": "single", "ui_action": "show_played_cards" }
+  ],
+  "action_mask_schema": [
+    { "index": 0, "meaning": "can_pass", "ui_binding": "pass_button_enabled" },
+    { "index": "1-N", "meaning": "move_index", "ui_binding": "card_selectable" }
+  ],
+  "required_lua_exports_extra": [],
+  "forbidden_lua_exports": ["evaluate_hand", "is_winning", "judge_trick_winner"],
+  "custom_data_layout": null,
+  "seat_custom_layout": null,
+  "seat_fields": [
+    { "field": "score", "usage": "required" }
+  ],
+  "extra_cards_usage": "Optional table cards or public row."
+}

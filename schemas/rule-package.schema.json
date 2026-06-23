@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yDMa3b/rulebook-trust-kit/schemas/rule-package.schema.json",
+  "title": "CBGM rule trust package",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "gameId",
+    "displayName",
+    "rulesetId",
+    "rulesetVersion",
+    "status",
+    "engineEntry",
+    "sourceIds"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "gameId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "displayName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "alternateNames": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "category": {
+      "enum": ["board", "card", "tile", "dice", "mixed", "other"]
+    },
+    "rulesetId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "rulesetVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][0-9A-Za-z.-]+)?$"
+    },
+    "language": {
+      "type": "string",
+      "default": "zh-CN"
+    },
+    "region": {
+      "type": "object",
+      "required": ["country", "province", "locality"],
+      "properties": {
+        "country": {
+          "type": ["string", "null"]
+        },
+        "province": {
+          "type": ["string", "null"]
+        },
+        "locality": {
+          "type": ["string", "null"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "historicalPeriod": {
+      "type": ["string", "null"]
+    },
+    "players": {
+      "type": "object",
+      "required": ["min", "max"],
+      "properties": {
+        "min": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "enum": [
+        "DRAFT",
+        "SOURCED",
+        "SPECIFIED",
+        "IMPLEMENTED",
+        "MECHANICALLY_VERIFIED",
+        "DOMAIN_REVIEWED",
+        "PUBLISHED"
+      ]
+    },
+    "engineEntry": {
+      "type": ["string", "null"]
+    },
+    "sourceIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^SRC-[0-9]{3}$"
+      }
+    },
+    "knownIssues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "lastVerifiedAt": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,19 @@
+schemaVersion: 1
+cases:
+  - id: edge-deal-shape
+    ruleIds:
+      - DDZ.PHASE.DEAL
+    state:
+      playerCount: 3
+      deckSize: 54
+    expected:
+      handSizes: [17, 17, 17]
+      bottomCards: 3
+  - id: edge-empty-hand-terminal
+    ruleIds:
+      - DDZ.WIN.EMPTY_HAND_FIRST
+    state:
+      currentPlayerHandSize: 1
+      pendingPlay: [7S]
+    expected:
+      nextPhase: SETTLEMENT

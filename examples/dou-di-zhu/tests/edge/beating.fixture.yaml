@@ -1,0 +1,24 @@
+schemaVersion: 1
+cases:
+  - id: edge-bomb-over-single
+    ruleIds:
+      - DDZ.BEAT.BOMB_OVER_NONBOMB
+    previous:
+      type: SINGLE
+      cards: [AS]
+    play:
+      type: BOMB
+      cards: [9S, 9H, 9D, 9C]
+    expected:
+      accepted: true
+  - id: edge-rocket-over-bomb
+    ruleIds:
+      - DDZ.BEAT.ROCKET_OVER_ALL
+    previous:
+      type: BOMB
+      cards: [AS, AH, AD, AC]
+    play:
+      type: ROCKET
+      cards: [BLACK_JOKER, RED_JOKER]
+    expected:
+      accepted: true

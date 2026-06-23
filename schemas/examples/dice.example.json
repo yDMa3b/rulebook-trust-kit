@@ -1,0 +1,25 @@
+{
+  "$schema": "../example.schema.json",
+  "game_type": "dice",
+  "description": "Advisory example for dice games.",
+  "reference_games": ["cai-shai"],
+  "example_phases": [
+    { "lua_id": "PLAYING", "lua_value": 4, "cpp_phase": 4, "ui_behavior": "show_action_panel", "button_labels": ["dynamic"] },
+    { "lua_id": "SETTLEMENT", "lua_value": 5, "cpp_phase": 5, "ui_behavior": "show_result_panel", "button_labels": [] }
+  ],
+  "history_card_types": [
+    { "value": 1, "meaning": "action_taken", "ui_action": "show_action_tip" }
+  ],
+  "action_mask_schema": [
+    { "index": 0, "meaning": "action_0", "ui_binding": "dynamic_button_0" },
+    { "index": 1, "meaning": "action_1", "ui_binding": "dynamic_button_1" }
+  ],
+  "required_lua_exports_extra": [],
+  "forbidden_lua_exports": ["analyze_cards", "can_beat", "find_all_moves", "evaluate_hand", "is_winning", "judge_trick_winner"],
+  "custom_data_layout": null,
+  "seat_custom_layout": null,
+  "seat_fields": [
+    { "field": "score", "usage": "required" }
+  ],
+  "extra_cards_usage": "Dice values shown in extra cards."
+}

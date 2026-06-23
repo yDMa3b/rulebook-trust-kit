@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "cases": [
+    {
+      "id": "semantic-single-7",
+      "ruleIds": ["DDZ.CARD.SINGLE"],
+      "input": {"cards": ["7S"]},
+      "expected": {"accepted": true, "type": "SINGLE", "value": 7}
+    },
+    {
+      "id": "semantic-straight-no-2",
+      "ruleIds": ["DDZ.CARD.STRAIGHT_NO_TWO_KINGS"],
+      "input": {"cards": ["10S", "JS", "QS", "KS", "2S"]},
+      "expected": {"accepted": false, "reason": "straight excludes 2 and jokers"}
+    },
+    {
+      "id": "semantic-bomb",
+      "ruleIds": ["DDZ.CARD.BOMB"],
+      "input": {"cards": ["9S", "9H", "9D", "9C"]},
+      "expected": {"accepted": true, "type": "BOMB"}
+    },
+    {
+      "id": "semantic-rocket",
+      "ruleIds": ["DDZ.CARD.ROCKET"],
+      "input": {"cards": ["BLACK_JOKER", "RED_JOKER"]},
+      "expected": {"accepted": true, "type": "ROCKET"}
+    }
+  ]
+}

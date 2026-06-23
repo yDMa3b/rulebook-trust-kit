@@ -1,0 +1,123 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Describe API Return Schemas",
+  "description": "Lua describe_phase / describe_action / describe_seat_field 返回值的 JSON schema。rule_id 字段用于三层对齐（checklist_final.yaml ↔ Lua ↔ UI），见 research/_taxonomy/rule_id_prefixes.yaml",
+  "definitions": {
+    "RuleIdRef": {
+      "type": "string",
+      "pattern": "^[A-Z]+\\.[A-Z]+\\.[A-Z0-9_]+$",
+      "description": "形如 GD.PHASE.TRIBUTE 的稳定锚点，必须在对应游戏 checklist_final.yaml 中存在"
+    },
+    "PhaseDescriptor": {
+      "type": "object",
+      "required": ["name", "ui_behavior"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prompt_text": {
+          "type": "string"
+        },
+        "turn_hint": {
+          "type": "string"
+        },
+        "sub_phase": {
+          "type": "string",
+          "description": "主阶段内的子阶段（例如 response_window / discard）。TS 端叠加显示在 lblPhaseHint"
+        },
+        "ui_behavior": {
+          "type": "string",
+          "enum": [
+            "show_phase_buttons",
+            "show_play_buttons",
+            "show_response_buttons",
+            "show_bet_buttons",
+            "show_discard_selection",
+            "show_action_panel",
+            "show_result_panel"
+          ]
+        },
+        "rule_id": { "$ref": "#/definitions/RuleIdRef" },
+        "rule_ids": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/RuleIdRef" }
+        },
+        "focus_piece": {
+          "type": "integer",
+          "description": "本阶段 UI 应居中/高亮展示的 piece_id（例如麻将响应窗要碰/杠/胡的那张弃牌）。TS 端根据 describe_pieces 查表渲染；未提供时隐藏 focus 区域。"
+        }
+      },
+      "additionalProperties": true
+    },
+    "ActionDescriptor": {
+      "type": "object",
+      "required": ["label"],
+      "properties": {
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "group": {
+          "type": "string",
+          "description": "按钮分组 id，同 group 按钮在 UI 上贴靠，不同 group 间插 spacer"
+        },
+        "emphasis": {
+          "type": "string",
+          "enum": ["primary", "danger", "default"],
+          "description": "按钮醒目度；primary 主色，danger 警示色，default 常规"
+        },
+        "disabled_reason": {
+          "type": "string",
+          "description": "按钮 disabled 时的说明；TS 端通过 TooltipLayer 展示"
+        },
+        "highlight_cards": {
+          "type": "array",
+          "items": { "type": "integer" },
+          "description": "建议点亮的手牌 index 列表；TS 端通过 HighlightOverlay 展示"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "长按/悬停时展示的额外说明"
+        },
+        "is_default": {
+          "type": "boolean",
+          "description": "是否为默认按钮（高亮 + 回车绑定）"
+        },
+        "payload": {
+          "description": "Lua 自定义数据，TS 端不渲染，透传回 step 的 action extra"
+        },
+        "rule_id": { "$ref": "#/definitions/RuleIdRef" },
+        "rule_ids": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/RuleIdRef" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "SeatFieldDescriptor": {
+      "type": "object",
+      "required": ["display_as", "label"],
+      "properties": {
+        "display_as": {
+          "type": "string",
+          "enum": ["score", "role", "tile_count", "melds", "status_chip", "raw"]
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "format": {
+          "type": "string",
+          "description": "printf 风格模板（例如 '%d 级'），TS 端 sprintf 后写入"
+        },
+        "rule_id": { "$ref": "#/definitions/RuleIdRef" },
+        "rule_ids": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/RuleIdRef" }
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,18 @@
+schemaVersion: 1
+items:
+  - id: AMB-DDZ-MAX-MULTIPLIER
+    question: Is a maximum multiplier part of a traditional or competition ruleset, or only a platform/room configuration?
+    affectedRuleIds:
+      - DDZ.SCORE.MAX_MULTIPLIER
+    sourcePositions:
+      - sourceId: SRC-001
+        interpretation: Public rules support multiplier changes but do not establish a universal cap.
+      - sourceId: SRC-003
+        interpretation: Platform rules show configurable multiplier behavior.
+      - sourceId: DEC-DDZ-MAX-MULTIPLIER
+        interpretation: This public example treats the cap as explicit platform configuration.
+    severity: minor
+    status: provisional-decision
+    provisionalDecision: Default to uncapped multiplier; projects can add caps as platform configuration.
+    reviewer: null
+    resolvedAt: null

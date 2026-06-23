@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Game Type Example Schema",
+  "type": "object",
+  "required": ["game_type", "description", "example_phases"],
+  "properties": {
+    "game_type": { "type": "string" },
+    "description": { "type": "string" },
+    "reference_games": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "example_phases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["lua_id", "cpp_phase", "ui_behavior"],
+        "properties": {
+          "lua_id": { "type": "string" },
+          "lua_value": { "type": "integer", "minimum": 1 },
+          "cpp_phase": { "type": "integer", "minimum": 1, "maximum": 5 },
+          "ui_behavior": { "type": "string" },
+          "button_labels": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "phase_notes": { "type": "string" },
+    "history_card_types": { "type": "array" },
+    "history_notes": { "type": "string" },
+    "action_mask_schema": { "type": "array" },
+    "action_mask_notes": { "type": "string" },
+    "required_lua_exports_extra": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "forbidden_lua_exports": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "custom_data_layout": {},
+    "custom_data_notes": { "type": "string" },
+    "seat_custom_layout": {},
+    "seat_fields": { "type": "array" },
+    "extra_cards_usage": { "type": "string" }
+  }
+}

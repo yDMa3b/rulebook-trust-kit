@@ -1,0 +1,24 @@
+schemaVersion: 1
+cases:
+  - id: edge-bomb-rocket-double
+    ruleIds:
+      - DDZ.SCORE.BOMB_AND_ROCKET_DOUBLE
+    events:
+      - BOMB_PLAYED
+      - ROCKET_PLAYED
+    expected:
+      multiplierFactor: 4
+  - id: edge-spring-double
+    ruleIds:
+      - DDZ.SCORE.SPRING_DOUBLE
+    events:
+      - SPRING
+    expected:
+      multiplierFactor: 2
+  - id: edge-max-multiplier-default
+    ruleIds:
+      - DDZ.SCORE.MAX_MULTIPLIER
+    config:
+      maxMultiplier: 0
+    expected:
+      capped: false

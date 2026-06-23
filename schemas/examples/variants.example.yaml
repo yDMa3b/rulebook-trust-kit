@@ -1,0 +1,150 @@
+# 变体协议示例 — 以四川血战麻将为模板
+# ============================================
+# 这是 rules_hub/<game>/variants.yaml 的完整范例。
+# 真正的 si-chuan-ma-jiang/variants.yaml 应由 research stage4 闭环后从
+# checklist_final.yaml 提炼，本文件仅作协议形态演示。
+#
+# 校验：
+#   ajv validate -s rules_hub/_contracts/variants.schema.json \
+#                -d rules_hub/_contracts/examples/variants.example.yaml
+
+schema_version: 1
+
+# ─── 变体定义 ────────────────────────────────────────────────────
+variants:
+  # ── 结算规则 ──
+  - id: blood_battle
+    label: 血战到底
+    type: bool
+    default: true
+    group: 结算规则
+    description: |
+      一家胡牌后剩余玩家继续打，直至倒数第二家胡牌或牌摸完。
+      传统打法（一炮即终局）请关闭此项，并启用 single_winner。
+    affects_rule_ids:
+      - SCMJ.PHASE.BLOOD_BATTLE
+      - SCMJ.SCORE.BLOOD_BATTLE_MULTI
+    conflicts: [blood_river, single_winner]
+    severity: variant
+
+  - id: blood_river
+    label: 血流成河
+    type: bool
+    default: false
+    group: 结算规则
+    description: |
+      一家胡后弃手为"鱼"，剩余玩家继续摸牌，可被多家胡同一张牌。
+      与"血战到底"互斥。
+    affects_rule_ids:
+      - SCMJ.PHASE.BLOOD_RIVER
+    conflicts: [blood_battle, single_winner]
+    severity: variant
+
+  - id: single_winner
+    label: 一胡即终局
+    type: bool
+    default: false
+    group: 结算规则
+    description: 传统打法。任意一家胡牌即结束本局。
+    conflicts: [blood_battle, blood_river]
+    severity: variant
+
+  # ── 起手规则 ──
+  - id: huan_san_zhang
+    label: 换三张
+    type: bool
+    default: true
+    group: 起手规则
+    description: 发牌后所有玩家选 3 张同花色牌循环交换。
+    affects_rule_ids:
+      - SCMJ.PHASE.HUAN_SAN_ZHANG
+
+  - id: ding_que
+    label: 定缺
+    type: bool
+    default: true
+    group: 起手规则
+    description: 每局开始所有玩家选一门花色作为本局缺门，缺门牌不能用于胡牌。
+
+  # ── 番种规则 ──
+  - id: hu_threshold
+    label: 起胡番数
+    type: enum
+    default: "1fan"
+    group: 番种规则
+    description: 番数低于阈值的牌型不能胡。数值越高越严格。
+    options:
+      - { value: "1fan", label: "1 番起胡（宽松，地方主流）" }
+      - { value: "4fan", label: "4 番起胡（中）" }
+      - { value: "6fan", label: "6 番起胡（严，国标向）" }
+
+  # ── 计分 ──
+  - id: base_score
+    label: 底分
+    type: int
+    default: 1
+    min: 1
+    max: 10
+    group: 计分
+    description: 每番乘以底分得到本局分数变动。
+
+  - id: cap_multiplier
+    label: 倍数封顶
+    type: int
+    default: 4
+    min: 1
+    max: 10
+    group: 计分
+    description: 单局分数倍数上限（番数 × 底分超过此值时按上限计）。
+
+
+# ─── 预设组合 ────────────────────────────────────────────────────
+# 玩家在 VariantPickerModal 首屏看到的卡片。每个 preset 是一组 values。
+# 任何 variant.id 不在 values 中时，回退到 variant.default。
+presets:
+  - id: chengdu_standard
+    label: 成都标准
+    description: 血战到底 + 换三张 + 定缺 + 1 番起胡（地方最主流）
+    values:
+      blood_battle: true
+      blood_river: false
+      single_winner: false
+      huan_san_zhang: true
+      ding_que: true
+      hu_threshold: "1fan"
+      base_score: 1
+      cap_multiplier: 4
+
+  - id: zigong_blood_river
+    label: 自贡血流成河
+    description: 血流成河 + 换三张 + 定缺
+    values:
+      blood_battle: false
+      blood_river: true
+      single_winner: false
+      huan_san_zhang: true
+      ding_que: true
+      hu_threshold: "1fan"
+
+  - id: chuan_classic
+    label: 川麻传统
+    description: 一胡即终局 + 不换三张（老派打法）
+    values:
+      blood_battle: false
+      blood_river: false
+      single_winner: true
+      huan_san_zhang: false
+      ding_que: true
+      hu_threshold: "1fan"
+
+  - id: guobiao_lean
+    label: 国标向（严）
+    description: 6 番起胡 + 不换三张 + 倍数无封顶
+    values:
+      blood_battle: true
+      huan_san_zhang: false
+      ding_que: false
+      hu_threshold: "6fan"
+      cap_multiplier: 10
+
+default_preset: chengdu_standard

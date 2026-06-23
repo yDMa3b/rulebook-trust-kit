@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "gameId": "dou-di-zhu",
+  "cases": [
+    {
+      "id": "CASE-DDZ-SINGLE-001",
+      "title": "A single 7 is a legal single-card play",
+      "ruleIds": ["DDZ.CARD.SINGLE"],
+      "sourceRefs": [{"sourceId": "SRC-004", "locator": "card-types"}],
+      "kind": "golden",
+      "testRef": "tests/semantic/card-patterns.fixture.json",
+      "expected": {"accepted": true, "analysis": {"type": "SINGLE", "value": 7}}
+    },
+    {
+      "id": "CASE-DDZ-STRAIGHT-NO-2-001",
+      "title": "A straight must not include rank 2",
+      "ruleIds": ["DDZ.CARD.STRAIGHT_NO_TWO_KINGS"],
+      "sourceRefs": [{"sourceId": "SRC-004", "locator": "card-types"}],
+      "kind": "illegal",
+      "testRef": "tests/semantic/card-patterns.fixture.json",
+      "expected": {"accepted": false, "errorCode": "INVALID_PATTERN"}
+    },
+    {
+      "id": "CASE-DDZ-BOMB-BEATS-001",
+      "title": "A bomb can beat a non-bomb play",
+      "ruleIds": ["DDZ.BEAT.BOMB_OVER_NONBOMB"],
+      "sourceRefs": [{"sourceId": "SRC-004", "locator": "beating"}],
+      "kind": "edge",
+      "testRef": "tests/edge/beating.fixture.yaml",
+      "expected": {"accepted": true}
+    },
+    {
+      "id": "CASE-DDZ-ROCKET-BEATS-ALL-001",
+      "title": "The rocket beats all other plays",
+      "ruleIds": ["DDZ.BEAT.ROCKET_OVER_ALL"],
+      "sourceRefs": [{"sourceId": "SRC-004", "locator": "beating"}],
+      "kind": "edge",
+      "testRef": "tests/edge/beating.fixture.yaml",
+      "expected": {"accepted": true}
+    },
+    {
+      "id": "CASE-DDZ-EMPTY-HAND-WIN-001",
+      "title": "The first side to empty a hand reaches settlement",
+      "ruleIds": ["DDZ.WIN.EMPTY_HAND_FIRST"],
+      "sourceRefs": [{"sourceId": "SRC-004", "locator": "win-condition"}],
+      "kind": "terminal",
+      "testRef": "tests/edge/deal-and-terminal.fixture.yaml",
+      "expected": {"accepted": true, "outcome": "SETTLEMENT"}
+    },
+    {
+      "id": "CASE-DDZ-MAX-MULTIPLIER-001",
+      "title": "Maximum multiplier is explicit platform configuration",
+      "ruleIds": ["DDZ.SCORE.MAX_MULTIPLIER"],
+      "sourceRefs": [{"sourceId": "DEC-DDZ-MAX-MULTIPLIER", "locator": "decision"}],
+      "kind": "maintainer-decision",
+      "testRef": "tests/edge/scoring.fixture.yaml",
+      "expected": {"accepted": true, "defaultMaxMultiplier": 0}
+    }
+  ]
+}

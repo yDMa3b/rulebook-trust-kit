@@ -1,0 +1,144 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Variants Schema (rules_hub/<game>/variants.yaml)",
+  "description": "声明式规则变体协议。每个游戏目录可放一份 variants.yaml，由 vite plugin 合并到 manifest 后注入前端，最终透传到 Lua web_bridge.M.init(seed, options) 的 options 参数。",
+  "type": "object",
+  "required": ["schema_version", "variants"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "enum": [1, 2],
+      "description": "协议版本号；不向后兼容的字段变更必须递增。"
+    },
+    "variants": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/Variant" }
+    },
+    "presets": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/Preset" },
+      "description": "预设组合。VariantPickerModal 首屏以 preset 卡片为主，单变体勾选作为高级折叠区。"
+    },
+    "default_preset": {
+      "type": "string",
+      "description": "玩家未做任何选择时使用的 preset id，必须对应 presets[].id。"
+    }
+  },
+  "definitions": {
+    "Variant": {
+      "type": "object",
+      "required": ["id", "label", "type", "default"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "description": "snake_case 唯一 key，作为 host_options 的 key、Lua state.variants 的字段、preset.values 的 key。"
+        },
+        "label": {
+          "type": "string",
+          "description": "UI 显示的中文标签。"
+        },
+        "type": {
+          "enum": ["bool", "enum", "int"],
+          "description": "type=bool: default 为 boolean；type=enum: default 为 string，必须出现在 options[].value 中；type=int: default 为 integer，可加 min/max。"
+        },
+        "default": {
+          "description": "默认值。类型由 type 决定。"
+        },
+        "group": {
+          "type": "string",
+          "description": "UI 分组标题（如「结算规则」「番种规则」）。同 group 的变体相邻显示。"
+        },
+        "description": {
+          "type": "string",
+          "description": "Tooltip / hover 详细说明。支持多行。"
+        },
+        "affects_rule_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "本变体启用/禁用时影响的 rules.yaml rule_id 列表。lua-tester coverage 会按变体过滤。"
+        },
+        "conflicts": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "互斥变体 id 列表。开 A 自动关 B。仅对 bool 类型有意义。"
+        },
+        "requires": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "依赖变体 id 列表。requires 未满足时本变体在 UI 中置灰。仅对 bool 类型有意义。"
+        },
+        "severity": {
+          "enum": ["core", "variant", "optional", "advisory"],
+          "description": "与 rules.yaml.severity 对齐。core=不应出现在变体协议中；variant=地方主流玩法；optional=个人偏好。"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["value", "label"],
+            "properties": {
+              "value": { "type": "string" },
+              "label": { "type": "string" }
+            },
+            "additionalProperties": false
+          },
+          "description": "仅当 type=enum 时使用。"
+        },
+        "min": {
+          "type": "integer",
+          "description": "仅当 type=int 时使用。"
+        },
+        "max": {
+          "type": "integer",
+          "description": "仅当 type=int 时使用。"
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "type": { "const": "enum" } } },
+          "then": { "required": ["options"] }
+        },
+        {
+          "if": { "properties": { "type": { "const": "bool" } } },
+          "then": { "properties": { "default": { "type": "boolean" } } }
+        },
+        {
+          "if": { "properties": { "type": { "const": "int" } } },
+          "then": { "properties": { "default": { "type": "integer" } } }
+        },
+        {
+          "if": { "properties": { "type": { "const": "enum" } } },
+          "then": { "properties": { "default": { "type": "string" } } }
+        }
+      ]
+    },
+    "Preset": {
+      "type": "object",
+      "required": ["id", "label", "values"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "label": { "type": "string" },
+        "description": { "type": "string" },
+        "values": {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [
+              { "type": "boolean" },
+              { "type": "string" },
+              { "type": "integer" }
+            ]
+          },
+          "description": "key 为 variant.id，value 为该变体在此 preset 下的取值。preset 不必覆盖所有变体；缺省时回退到 variant.default。"
+        }
+      }
+    }
+  }
+}
