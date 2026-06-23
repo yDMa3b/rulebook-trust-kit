@@ -1,0 +1,30 @@
+name: Rule Package Gate
+
+on:
+  pull_request:
+    paths:
+      - "examples/**"
+      - "packages/rule-trust-cli/**"
+      - "schemas/**"
+      - "docs/rules-engineering-standard.md"
+      - ".github/workflows/rule-package-gate.yml"
+  workflow_dispatch:
+
+jobs:
+  rule-package-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10.33.0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm test
+      - run: pnpm validate --game dou-di-zhu
+      - run: pnpm trace --game dou-di-zhu
+      - run: pnpm review-pack --game dou-di-zhu

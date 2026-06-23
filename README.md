@@ -20,6 +20,14 @@ Rules are easy to write down and hard to trust. A useful rule package needs more
 
 This repository provides a small schema set, a CLI, and one example package so maintainers can repeat that workflow.
 
+## Maintainer Signals
+
+- CI runs install, build, unit tests, validation, trace, and review-pack generation.
+- A dedicated Rule Package Gate is available for pull requests that touch examples, schemas, or CLI code.
+- Issue templates and a PR template guide source-backed rule package contributions.
+- The roadmap is public in [ROADMAP.md](ROADMAP.md).
+- The Codex for Open Source application draft is in [docs/codex-for-oss-application.md](docs/codex-for-oss-application.md).
+
 ## Quick Start
 
 ```bash
@@ -61,4 +69,4 @@ Documentation, rule package prose, and example data are licensed under CC BY 4.0
 
 ## Project Status
 
-This is an early public extraction. The goal for `v0.1.0` is to make the maintainer workflow understandable and runnable, not to publish a comprehensive rule corpus.
+This is an early public extraction. The goal for `v0.1.x` is to make the maintainer workflow understandable and runnable, not to publish a comprehensive rule corpus.

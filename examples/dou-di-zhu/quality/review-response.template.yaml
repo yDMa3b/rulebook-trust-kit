@@ -1,0 +1,16 @@
+schemaVersion: 1
+gameId: dou-di-zhu
+rulesetVersion: 0.1.0
+reviewer:
+  name: ""
+  role: ""
+  date: ""
+scope:
+  reviewedRuleIds: []
+  skippedRuleIds: []
+decisions:
+  acceptedRuleIds: []
+  needsChangeRuleIds: []
+  unresolvedAmbiguities:
+    - AMB-DDZ-MAX-MULTIPLIER
+notes: ""

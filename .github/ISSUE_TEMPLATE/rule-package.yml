@@ -1,0 +1,34 @@
+name: Rule package request
+description: Propose a new public rule package or a rule package improvement.
+title: "Rule package: "
+labels:
+  - rule-package
+body:
+  - type: input
+    id: game
+    attributes:
+      label: Game or ruleset
+      description: Name the game, region, and variant if known.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Public sources
+      description: Link public sources or explain where stable source material can be found.
+    validations:
+      required: true
+  - type: textarea
+    id: ambiguity
+    attributes:
+      label: Known ambiguity
+      description: Describe regional disputes, platform choices, or unclear rules.
+    validations:
+      required: false
+  - type: textarea
+    id: fixtures
+    attributes:
+      label: Useful examples or fixtures
+      description: Provide legal, illegal, edge, or terminal examples if available.
+    validations:
+      required: false

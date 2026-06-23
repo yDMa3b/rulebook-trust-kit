@@ -1,0 +1,28 @@
+name: Bug report
+description: Report a CLI, schema, or example package problem.
+title: "Bug: "
+labels:
+  - bug
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What failed or behaved unexpectedly?
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command output
+      description: Paste the command and relevant output.
+      render: shell
+    validations:
+      required: false
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should have happened?
+    validations:
+      required: false
